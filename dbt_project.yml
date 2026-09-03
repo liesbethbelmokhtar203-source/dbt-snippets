@@ -1,0 +1,30 @@
+name: 'snippets'
+version: '1.0.0'
+config-version: 2
+
+profile: 'snippets'
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+vars:
+  # How far back staging models look in dev. See macros/utils.sql.
+  dev_window_days: 7
+
+models:
+  snippets:
+    +persist_docs:
+      relation: true
+      columns: true
+    staging:
+      +materialized: view
+      +schema: staging
+    marts:
+      +materialized: table
+      +schema: marts
